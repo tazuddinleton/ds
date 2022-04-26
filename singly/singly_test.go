@@ -50,7 +50,7 @@ func TestFlattenSelect(t *testing.T) {
 	fl2 := FlattenSelect(l2, func(t *Duck) string { return t.Name })
 
 	if len(fl2) != 2 {
-		t.Errorf("wanted len 3, got %d", len(fl2))
+		t.Errorf("wanted len 2, got %d", len(fl2))
 	}
 
 	cont2 := strings.Join(fl2, " ")
