@@ -1,4 +1,4 @@
-package singly
+package singlyfp
 
 import (
 	"strings"
@@ -58,4 +58,53 @@ func TestFlattenSelect(t *testing.T) {
 	if cont2 != "Donald Duck" {
 		t.Errorf("wanted \"Donald Duck\", got %s", cont2)
 	}
+}
+
+func TestInsertHead(t *testing.T) {
+	l := NewList(1, 2, 3, 4)
+	l = InsertHead(55, l)
+
+	if l.data != 55 {
+		t.Errorf("wanted 55, got %d", l.data)
+	}
+}
+
+func TestLast(t *testing.T) {
+	l := NewList(1, 2, 3)
+	lst := 4
+	l = Append(l, lst)
+
+	got := Last(l)
+
+	if got != lst {
+		t.Errorf("wanted %d, got %d", lst, got)
+	}
+}
+
+func TestLastWhenNil(t *testing.T) {
+	var lst int
+	l := Append(nil, lst)
+
+	got := Last(l)
+
+	if got != lst {
+		t.Errorf("wanted %d, got %d", lst, got)
+	}
+}
+
+func TestAppend(t *testing.T) {
+	l := NewList(1, 2, 3)
+	lst := 4
+	l = Append(l, lst)
+
+	got := Last(l)
+
+	if got != lst && l.data != 1 {
+		t.Errorf("wanted %d, got %d", lst, got)
+	}
+
+	if l.data != 1 {
+		t.Errorf("wanted %d, got %d", 1, l.data)
+	}
+
 }

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/tazuddinleton/ds/singly"
+	"github.com/tazuddinleton/ds/singlyfp"
 )
 
 type Duck struct {
@@ -14,6 +14,6 @@ func main() {
 	// l := singly.NewList("Hello", "World", "!")
 	// l2 := singly.NewList(1.0, 2.0, 3.0, 4.0, 4.09)
 
-	l3 := singly.NewList(&Duck{"Donald"}, &Duck{"Trump"})
-	fmt.Println(fmt.Printf("%v", singly.Flatten(l3)))
+	l3 := singlyfp.NewList(&Duck{"Donald"}, &Duck{"Trump"})
+	fmt.Println(fmt.Printf("%v", singlyfp.Flatten(l3)))
 }

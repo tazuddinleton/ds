@@ -1,4 +1,4 @@
-package singly
+package singlyfp
 
 import "fmt"
 
@@ -52,4 +52,35 @@ func FlattenSelect[T any, P any](node *Node[T], f func(T) P) []P {
 		return loop(n.next, append(t, f(n.data)))
 	}
 	return loop(node, []P{})
+}
+
+// InsertHead inserts a node at the beginning of the list
+func InsertHead[T any](data T, node *Node[T]) *Node[T] {
+	return New(data, node)
+}
+
+// Append appends a data node at the end of a given list
+func Append[T any](list *Node[T], data T) *Node[T] {
+	if list == nil {
+		return New(data, nil)
+	}
+	return New(list.data, Append(list.next, data))
+}
+
+// Last returns the last node of a given list
+func Last[T any](list *Node[T]) T {
+	if list == nil {
+		var t T
+		return t
+	}
+
+	if list.next == nil {
+		return list.data
+	}
+	return Last(list.next)
+}
+
+func InsertAfter[T any](data T, after T, node *Node[T]) *Node[T] {
+	// this is not a valid operation
+	return nil
 }
