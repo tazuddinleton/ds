@@ -70,21 +70,21 @@ func (list *LinkedList[T]) Pop() *Node[T] {
 	return n
 }
 
+// Delete removes first matching element form the list
 func (list *LinkedList[T]) Delete(data T) {
 	if reflect.DeepEqual(list.head.data, data) {
 		list.head = list.head.next
 		return
 	}
-	var remove func(prev, curr *Node[T])
-	remove = func(prev, curr *Node[T]) {
-		if curr == nil {
-			return
-		}
-		if reflect.DeepEqual(curr.data, data) {
-			prev.next = curr.next
-			return
-		}
-		remove(curr, curr.next)
+	prev := list.head
+	next := list.head.next
+
+	for !reflect.DeepEqual(next.data, data) && next != nil {
+		prev = next
+		next = next.next
 	}
-	remove(list.head, list.head.next)
+
+	if next != nil {
+		prev.next = next.next
+	}
 }
