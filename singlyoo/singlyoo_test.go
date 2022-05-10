@@ -82,6 +82,14 @@ func TestPop(t *testing.T) {
 	}
 }
 
+func TestLast(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5)
+	lst := l.Last()
+	if lst.data != 5 {
+		t.Errorf("wanted 5, got %d", lst.data)
+	}
+}
+
 func TestDelete(t *testing.T) {
 	l := NewListOf(1, 2, 3, 4, 5)
 	l.Delete(1) // 2,3,4,5
