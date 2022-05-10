@@ -1,5 +1,7 @@
 package singlyoo
 
+import "reflect"
+
 type LinkedList[T any] struct {
 	head *Node[T]
 }
@@ -34,14 +36,18 @@ func (list *LinkedList[T]) InsertAfter(node *Node[T], data T) {
 
 // Append inserts a node at the end of the list
 func (list *LinkedList[T]) Append(data T) {
-	list.InsertAfter(list.last(list.head), data)
+	list.InsertAfter(list.Last(), data)
 }
 
-func (list *LinkedList[T]) last(l *Node[T]) *Node[T] {
-	if l.next == nil {
-		return l
+func (list *LinkedList[T]) Last() *Node[T] {
+	var findLast func(head *Node[T]) *Node[T]
+	findLast = func(head *Node[T]) *Node[T] {
+		if head.next == nil {
+			return head
+		}
+		return findLast(head.next)
 	}
-	return list.last(l.next)
+	return findLast(list.head)
 }
 
 // newNode creates a new singly linked list
@@ -55,4 +61,30 @@ func newList[T any](ds ...T) *Node[T] {
 		return nil
 	}
 	return newNode(ds[0], newList((ds[1:])...))
+}
+
+// Pop removes first node from the list and returns it
+func (list *LinkedList[T]) Pop() *Node[T] {
+	n := list.head
+	list.head = n.next
+	return n
+}
+
+func (list *LinkedList[T]) Delete(data T) {
+	if reflect.DeepEqual(list.head.data, data) {
+		list.head = list.head.next
+		return
+	}
+	var remove func(prev, curr *Node[T])
+	remove = func(prev, curr *Node[T]) {
+		if curr == nil {
+			return
+		}
+		if reflect.DeepEqual(curr.data, data) {
+			prev.next = curr.next
+			return
+		}
+		remove(curr, curr.next)
+	}
+	remove(list.head, list.head.next)
 }

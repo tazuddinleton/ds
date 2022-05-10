@@ -69,3 +69,35 @@ func TestAppend(t *testing.T) {
 		t.Errorf("wanted 3, got %d", l.head.next.next.data)
 	}
 }
+
+func TestPop(t *testing.T) {
+	l := NewListOf(1, 2, 3)
+	one := l.Pop()
+
+	if l.head.data != 2 {
+		t.Errorf("wanted 2, got %d", l.head.data)
+	}
+	if one.data != 1 {
+		t.Errorf("wanted 1, got %d", one.data)
+	}
+}
+
+func TestDelete(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5)
+	l.Delete(1) // 2,3,4,5
+	if l.head.data != 2 {
+		t.Errorf("wanted 2, got %d", l.head.data)
+	}
+
+	l.Delete(5) // 2,3,4
+	last := l.Last()
+	if last.data != 4 {
+		t.Errorf("wanted 4, got %d", last.data)
+	}
+
+	l.Delete(3) // // 2,4
+
+	if l.head.next.data != 4 {
+		t.Errorf("wanted 4, got %d", l.head.next.data)
+	}
+}
