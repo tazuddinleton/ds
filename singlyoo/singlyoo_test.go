@@ -109,3 +109,57 @@ func TestDelete(t *testing.T) {
 		t.Errorf("wanted 4, got %d", l.head.next.data)
 	}
 }
+
+func TestDeleteWhile(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5)
+	l.DeleteWhile(func(n *Node[int]) bool { return n.data < 3 }) // 3,4,5
+
+	if l.head.data != 3 {
+		t.Errorf("wanted 3, got %d", l.head.data)
+	}
+}
+
+func TestDeleteWhen(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 4, 4, 4, 5, 6)
+	l.DeleteWhen(func(n *Node[int]) bool { return n.data == 3 || n.data == 4 }) // 1, 2, 5, 6
+	if l.head.next.next.data != 5 {
+		t.Errorf("wanted 5, got %d", l.head.next.next.data)
+	}
+
+	l.DeleteWhen(func(n *Node[int]) bool { return n.data == 1 })
+
+	if l.head.data != 2 {
+		t.Errorf("wanted 2, got %d", l.head.data)
+	}
+}
+
+func TestItem(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5, 6)
+	one, _ := l.Item(0)
+	if one != 1 {
+		t.Errorf("wanted 1, got %d", one)
+	}
+
+	six, _ := l.Item(5)
+	if six != 6 {
+		t.Errorf("wanted 6, got %d", six)
+	}
+
+	_, err := l.Item(-10)
+	if err == nil {
+		t.Errorf("wanted index out of range, got nil")
+	}
+	_, err = l.Item(1000)
+	if err == nil {
+		t.Errorf("wanted index out of range, got nil")
+	}
+}
+
+func TestDeleteAt(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5, 6)
+	l.DeleteAt(2) // 1, 2, 4, 5, 6
+	i, _ := l.Item(2)
+	if i != 4 {
+		t.Errorf("wanted 4, got %d", i)
+	}
+}

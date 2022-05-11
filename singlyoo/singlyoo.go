@@ -1,6 +1,9 @@
 package singlyoo
 
-import "reflect"
+import (
+	"errors"
+	"reflect"
+)
 
 type LinkedList[T any] struct {
 	head *Node[T]
@@ -87,4 +90,66 @@ func (list *LinkedList[T]) Delete(data T) {
 	if next != nil {
 		prev.next = next.next
 	}
+}
+
+// DeleteWhile removes nodes from the head while matches a condition
+func (list *LinkedList[T]) DeleteWhile(selector func(*Node[T]) bool) {
+	h := list.head
+
+	for selector(h) {
+		h = h.next
+	}
+	list.head = h
+}
+
+// DeleteWhen removes all those nodes when matches a condition
+func (list *LinkedList[T]) DeleteWhen(selector func(*Node[T]) bool) {
+	prev := list.head
+	next := prev.next
+	for next != nil {
+		if selector(next) {
+			prev.next = next.next
+		} else {
+			prev = next
+		}
+		next = prev.next
+	}
+	if selector(list.head) {
+		list.head = list.head.next
+	}
+}
+
+// DeleteAt takes an index and remove item at that index
+func (list *LinkedList[T]) DeleteAt(index int) {
+	if index == 0 {
+		list.head = list.head.next
+		return
+	}
+	cnt := 1
+	prev := list.head
+	next := prev.next
+	for cnt < index {
+		prev = next
+		next = prev.next
+		cnt++
+	}
+	prev.next = next.next
+}
+
+// Item takes an index at returns node at that index
+func (list *LinkedList[T]) Item(index int) (T, error) {
+	var t T
+	if index < 0 {
+		return t, errors.New("index out of range")
+	}
+	n := list.head
+	cnt := 0
+	for cnt < index {
+		cnt++
+		if n == nil {
+			return t, errors.New("index out of range")
+		}
+		n = n.next
+	}
+	return n.data, nil
 }
