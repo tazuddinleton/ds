@@ -163,3 +163,33 @@ func TestDeleteAt(t *testing.T) {
 		t.Errorf("wanted 4, got %d", i)
 	}
 }
+
+func TestRevers(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5)
+	l.ReverseIter()
+	if l.Last().data != 1 {
+		t.Errorf("wanted 5, got %d", l.Last().data)
+	}
+}
+
+func TestReverseList(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5)
+	l.ReverseIterFunc()
+	if l.head.data != 5 {
+		t.Errorf("wanted 5, got %d", l.head.data)
+	}
+	if l.Last().data != 1 {
+		t.Errorf("wanted 1, got %d", l.Last().data)
+	}
+}
+
+func TestReverseRecurr(t *testing.T) {
+	l := NewListOf(1, 2, 3, 4, 5)
+	l.ReverseRecurr()
+	if l.head.data != 5 {
+		t.Errorf("wanted 5, got %d", l.head.data)
+	}
+	if l.Last().data != 1 {
+		t.Errorf("wanted 1, got %d", l.Last().data)
+	}
+}

@@ -108,3 +108,11 @@ func TestAppend(t *testing.T) {
 	}
 
 }
+
+func TestRevers(t *testing.T) {
+	l := NewList(1, 2, 3, 4, 5)
+	l = Reverse(l)
+	if l.data != 5 {
+		t.Errorf("wanted 5, got %d", l.data)
+	}
+}

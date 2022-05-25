@@ -84,3 +84,10 @@ func InsertAfter[T any](data T, after T, node *Node[T]) *Node[T] {
 	// this is not a valid operation
 	return nil
 }
+
+func Reverse[T any](list *Node[T]) *Node[T] {
+	if list == nil {
+		return list
+	}
+	return Append(Reverse(list.next), list.data)
+}

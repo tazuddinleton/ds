@@ -43,14 +43,11 @@ func (list *LinkedList[T]) Append(data T) {
 }
 
 func (list *LinkedList[T]) Last() *Node[T] {
-	var findLast func(head *Node[T]) *Node[T]
-	findLast = func(head *Node[T]) *Node[T] {
-		if head.next == nil {
-			return head
-		}
-		return findLast(head.next)
+	h := list.head
+	for h.next != nil {
+		h = h.next
 	}
-	return findLast(list.head)
+	return h
 }
 
 // newNode creates a new singly linked list
@@ -152,4 +149,49 @@ func (list *LinkedList[T]) Item(index int) (T, error) {
 		n = n.next
 	}
 	return n.data, nil
+}
+
+// 1, 2, 3, 4
+// 1-> nil
+// ReverseIter reverses the elements of a list
+func (list *LinkedList[T]) ReverseIter() {
+	var prev *Node[T]
+	curr := list.head
+
+	for curr != nil {
+		temp := curr.next
+		curr.next = prev
+		prev = curr
+		curr = temp
+	}
+	list.head = prev
+}
+
+// 1,2,3,4
+func (list *LinkedList[T]) ReverseIterFunc() {
+	var reverse func(prev, curr *Node[T]) *Node[T]
+	reverse = func(prev, curr *Node[T]) *Node[T] {
+		if curr == nil {
+			return prev
+		}
+		n := curr.next
+		curr.next = prev
+		return reverse(curr, n)
+	}
+	list.head = reverse(nil, list.head)
+}
+
+// 1,2,3,4,5
+func (list *LinkedList[T]) ReverseRecurr() {
+	var reverse func(head *Node[T]) *Node[T]
+	reverse = func(head *Node[T]) *Node[T] {
+		newHead := head
+		if head.next != nil {
+			newHead = reverse(head.next)
+			head.next.next = head
+		}
+		head.next = nil
+		return newHead
+	}
+	list.head = reverse(list.head)
 }
