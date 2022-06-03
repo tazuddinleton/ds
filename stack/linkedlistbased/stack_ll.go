@@ -29,11 +29,11 @@ func (s *Stack[T]) Push(item T) {
 // Pop returns a top item from the stack, or error if stack is empty
 // Time = O(1), Space = O(1)
 func (s *Stack[T]) Pop() (T, error) {
+	var data T
 	if s.Empty() {
-		var t T
-		return t, errors.New("stack is empty")
+		return data, errors.New("stack is empty")
 	}
-	t := s.store.data
+	data = s.store.data
 	s.store = s.store.next
-	return t, nil
+	return data, nil
 }
