@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/tazuddinleton/ds/singlyfp"
+	"github.com/tazuddinleton/ds/linkedlist/singlyfp"
 )
 
 type Duck struct {
