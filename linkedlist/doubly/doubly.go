@@ -25,3 +25,12 @@ func ListOf[T any](nodes ...T) *List[T] {
 	}
 	return &List[T]{Head: head, Tail: tail}
 }
+
+// Find takes a selector func and returns the first match using that func or nil
+func (l *List[T]) Find(match func(item T) bool) *ListNode[T] {
+	h := l.Head
+	for h != nil && !match(h.Val) {
+		h = h.Next
+	}
+	return h
+}
