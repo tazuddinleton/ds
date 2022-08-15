@@ -1,5 +1,5 @@
 # Data Structures in Go
-An implement data structures in golang and solutions to commont problems.
+An implementation of data structures in golang and solutions to common problems.
 
 ### To run tests
 `go test -v -count=1 ./...`
