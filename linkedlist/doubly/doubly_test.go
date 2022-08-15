@@ -29,7 +29,7 @@ func TestInsert(t *testing.T) {
 		t.Errorf("wanted 4, got %d", l.head.Val)
 	}
 
-	l2 := &List[int]{head: &ListNode[int]{}}
+	l2 := &List[int]{head: nil}
 
 	l2.Insert(1)
 	if l2.Head().Val != 1 {

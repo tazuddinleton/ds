@@ -33,7 +33,11 @@ func (l *List[T]) Tail() *ListNode[T] {
 	if l.head == nil {
 		return nil
 	}
-	return l.head.Prev
+	n := l.head
+	for n.Next != nil {
+		n = n.Next
+	}
+	return n
 }
 
 // Find takes a selector func and returns the first match using that func or nil
