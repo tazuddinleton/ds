@@ -1,27 +1,22 @@
 package binsearchtree
 
-type Comparator interface {
-	Compare(a, b any) int
-}
+import "fmt"
 
 type Tree struct {
-	comparator Comparator
-	Root       *Node
+	compare func(a, b any) int
+	Root    *Node
 }
 
-func (this *Tree) compare(a, b any) int {
-	return this.comparator.Compare(a, b)
+func NewTree(cmp func(a, b any) int) *Tree {
+	return &Tree{compare: cmp}
 }
 
-func NewTree(cmp Comparator) *Tree {
-	return &Tree{comparator: cmp}
-}
-
-func (this *Tree) Add(data any) {
+func (this *Tree) Insert(data any) {
 	if this.Root == nil {
+		fmt.Println("inserting root node")
 		this.Root = &Node{Entry: data, tree: this}
 	} else {
-		this.Root.Add(data)
+		this.Root.Insert(data)
 	}
 }
 

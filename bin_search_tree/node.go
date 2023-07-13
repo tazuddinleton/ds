@@ -1,5 +1,6 @@
 package binsearchtree
 
+// Node is binary search tree node
 type Node struct {
 	Entry  any
 	Parent *Node
@@ -16,7 +17,7 @@ func (this *Node) insertLeft(data any) {
 	if this.Left == nil {
 		this.Left = this.newNode(data)
 	} else {
-		this.Left.Add(data)
+		this.Left.Insert(data)
 	}
 }
 
@@ -24,24 +25,27 @@ func (this *Node) insertRight(data any) {
 	if this.Right == nil {
 		this.Right = this.newNode(data)
 	} else {
-		this.Right.Add(data)
+		this.Right.Insert(data)
 	}
 }
 
-func (this *Node) Add(data any) {
-	if this.tree.comparator.Compare(data, this.Entry) < 0 {
+// Insert node to BST
+func (this *Node) Insert(data any) {
+	if this.tree.compare(data, this.Entry) < 0 {
 		this.insertLeft(data)
 	} else {
 		this.insertRight(data)
 	}
 }
 
+// Delete a tree node, first match will be deleted
 func (this *Node) Delete(data any) {
 	if !this.Contains(data) {
 		return
 	}
 }
 
+// Contains checks if a value exists in the tree
 func (this *Node) Contains(data any) bool {
 	switch cmp := this.tree.compare(this.Entry, data); {
 	case cmp == 0:
@@ -54,6 +58,7 @@ func (this *Node) Contains(data any) bool {
 	}
 }
 
+// Min returns node containing the minimum value
 func (this *Node) Min() any {
 	if this.Left == nil {
 		return this.Entry
@@ -61,9 +66,24 @@ func (this *Node) Min() any {
 	return this.Left.Min()
 }
 
+// Max returns node containing the maximum value
 func (this *Node) Max() any {
 	if this.Left == nil {
 		return this.Entry
 	}
 	return this.Left.Min()
 }
+
+// IsFull returns true if the bst is full (every node contains either 0 or 2 children, not 1)
+func (this *Node) IsFull() bool {
+	if this.Right != nil && this.Left != nil {
+		return this.Left.IsFull() && this.Right.IsFull()
+	}
+
+	if this.Right == nil && this.Left == nil {
+		return true
+	}
+	return false
+}
+
+//
