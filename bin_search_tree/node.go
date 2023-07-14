@@ -86,4 +86,38 @@ func (this *Node) IsFull() bool {
 	return false
 }
 
-//
+func (this *Node) ToArrayInorder() []any {
+	items := []any{}
+	if this.Left != nil {
+		items = append(items, this.Left.ToArrayInorder()...)
+	}
+	items = append(items, this.Entry)
+	if this.Right != nil {
+		items = append(items, this.Right.ToArrayInorder()...)
+	}
+	return items
+}
+
+func (this *Node) ToArrayPreorder() []any {
+	items := []any{}
+	items = append(items, this.Entry)
+	if this.Left != nil {
+		items = append(items, this.Left.ToArrayPreorder()...)
+	}
+	if this.Right != nil {
+		items = append(items, this.Right.ToArrayPreorder()...)
+	}
+	return items
+}
+
+func (this *Node) ToArrayPostorder() []any {
+	items := []any{}
+	if this.Left != nil {
+		items = append(items, this.Left.ToArrayPostorder()...)
+	}
+	if this.Right != nil {
+		items = append(items, this.Right.ToArrayPostorder()...)
+	}
+	items = append(items, this.Entry)
+	return items
+}
