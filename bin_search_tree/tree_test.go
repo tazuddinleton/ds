@@ -54,7 +54,7 @@ func TestToArrayInorder(t *testing.T) {
 		t.Errorf("wanted 7 items but got %d", len(inOrdered))
 	}
 
-	expected := []int{9, 25, 33, 45, 50, 75, 98}
+	expected := []any{9, 25, 33, 45, 50, 75, 98}
 	fmt.Println("Inorder: ", inOrdered)
 
 	if !reflect.DeepEqual(inOrdered, expected) {
@@ -77,7 +77,7 @@ func TestToArrayPreorder(t *testing.T) {
 		t.Errorf("wanted 7 items but got %d", len(preOrdered))
 	}
 
-	expected := []int{50, 33, 75, 9, 45, 25, 98}
+	expected := []any{50, 33, 75, 9, 45, 25, 98}
 	fmt.Println("Preorder: ", preOrdered)
 
 	if !reflect.DeepEqual(preOrdered, expected) {
@@ -100,10 +100,74 @@ func TestToArrayPostorder(t *testing.T) {
 		t.Errorf("wanted 7 items but got %d", len(postOrdered))
 	}
 
-	expected := []int{25, 9, 45, 33, 98, 75, 50}
+	expected := []any{25, 9, 45, 33, 98, 75, 50}
 	fmt.Println("Postorder: ", postOrdered)
 
 	if !reflect.DeepEqual(postOrdered, expected) {
 		t.Errorf("expected %v,  got %v", expected, postOrdered)
+	}
+}
+
+func Test_Delete_LeafNode(t *testing.T) {
+	bst := NewTree(intComparator)
+	bst.Insert(50)
+	fmt.Println("before delete: ", bst.ToArrayInorder())
+	bst.Delete(50)
+	fmt.Println("after delete: ", bst.ToArrayInorder())
+	if bst.Size() != 0 {
+		t.Errorf("the size expected is 6, but got %d", bst.Size())
+	}
+}
+
+func Test_Delete_NodeWithOneChild(t *testing.T) {
+	bst := NewTree(intComparator)
+	bst.Insert(50)
+	bst.Insert(40)
+	fmt.Println("before delete: ", bst.ToArrayInorder())
+	bst.Delete(50)
+	fmt.Println("after delete: ", bst.ToArrayInorder())
+	if bst.Size() != 1 {
+		t.Errorf("the size expected is 6, but got %d", bst.Size())
+	}
+
+	bst = NewTree(intComparator)
+	bst.Insert(50)
+	bst.Insert(80)
+	fmt.Println("before delete: ", bst.ToArrayInorder())
+	bst.Delete(50)
+	fmt.Println("after delete: ", bst.ToArrayInorder())
+	if bst.Size() != 1 {
+		t.Errorf("the size expected is 6, but got %d", bst.Size())
+	}
+}
+func Test_Delete_NodeWithBothChildren(t *testing.T) {
+	bst := NewTree(intComparator)
+	bst.Insert(50)
+	bst.Insert(40)
+	bst.Insert(80)
+	expect := []any{40, 80}
+	fmt.Println("before delete: ", bst.ToArrayInorder())
+	bst.Delete(50)
+	res := bst.ToArrayInorder()
+	fmt.Println("after delete: ", res)
+	if !reflect.DeepEqual(expect, res) {
+		t.Errorf("expected %v, but got %v", expect, res)
+	}
+	bst = NewTree(intComparator)
+	bst.Insert(50)
+	bst.Insert(75)
+	bst.Insert(33)
+	bst.Insert(9)
+	bst.Insert(25)
+	bst.Insert(98)
+	bst.Insert(45)
+
+	expect = []any{9, 25, 33, 45, 75, 98}
+	fmt.Println("before delete: ", bst.ToArrayInorder())
+	bst.Delete(50)
+	res = bst.ToArrayInorder()
+	fmt.Println("after delete: ", res)
+	if !reflect.DeepEqual(expect, res) {
+		t.Errorf("expected %v, but got %v", expect, res)
 	}
 }

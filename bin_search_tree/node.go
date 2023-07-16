@@ -38,16 +38,9 @@ func (this *Node) Insert(data any) {
 	}
 }
 
-// Delete a tree node, first match will be deleted
-func (this *Node) Delete(data any) {
-	if !this.Contains(data) {
-		return
-	}
-}
-
 // Contains checks if a value exists in the tree
 func (this *Node) Contains(data any) bool {
-	switch cmp := this.tree.compare(this.Entry, data); {
+	switch cmp := this.tree.compare(data, this.Entry); {
 	case cmp == 0:
 		return true
 
