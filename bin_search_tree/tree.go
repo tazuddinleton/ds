@@ -24,14 +24,12 @@ func (this *Tree) Delete(data any) {
 		return
 	}
 	// To delete an item from bst we need to follow the below steps:
+
 	// 1. locate the item
-	// 2. find the smallest item from the right sub-tree
-	// 3. replace the item with the new item
-	// 4. delete the new item from the sub-tree
-	// Case 1: the node has no children
-	//      => we just replace the node with nil
-	// Case 2: the node has 1 child
-	// Case 3: the node has both children
+	// 2. if it is a leaf node return nil to the parent
+	// 3. if node has one node return it as new node
+	// 4. if node has both node find the min node from the right sub-tree then replace
+	//      current nodes entry with it, then delete the min from the right sub-tree
 
 	this.Root = deleteNode(this, this.Root, data)
 	this.size--
@@ -54,6 +52,7 @@ func deleteNode(tree *Tree, node *Node, data any) *Node {
 		node.Left = deleteNode(tree, node.Left, data)
 		return node
 	}
+
 	if tree.compare(data, node.Entry) > 0 {
 		node.Left = deleteNode(tree, node.Left, data)
 		return node
@@ -92,4 +91,25 @@ func (this *Tree) ToArrayPostorder() []any {
 
 func (this *Tree) Size() int {
 	return this.size
+}
+
+func (this *Tree) Height() int {
+	return height(this.Root)
+}
+
+func height(node *Node) int {
+	if node == nil {
+		return -1
+	}
+	if node.Left == nil && node.Right == nil {
+		return 0
+	}
+	return 1 + max(height(node.Left), height(node.Right))
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }

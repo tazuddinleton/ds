@@ -140,6 +140,7 @@ func Test_Delete_NodeWithOneChild(t *testing.T) {
 		t.Errorf("the size expected is 6, but got %d", bst.Size())
 	}
 }
+
 func Test_Delete_NodeWithBothChildren(t *testing.T) {
 	bst := NewTree(intComparator)
 	bst.Insert(50)
@@ -169,5 +170,33 @@ func Test_Delete_NodeWithBothChildren(t *testing.T) {
 	fmt.Println("after delete: ", res)
 	if !reflect.DeepEqual(expect, res) {
 		t.Errorf("expected %v, but got %v", expect, res)
+	}
+}
+
+func TestTreeHeight(t *testing.T) {
+	bst := NewTree(intComparator)
+	bst.Insert(50)
+	bst.Insert(75)
+	bst.Insert(33)
+	bst.Insert(9)
+	bst.Insert(25)
+	bst.Insert(98)
+	bst.Insert(45)
+
+	if bst.Height() != 3 {
+		t.Errorf("expected 3, got %d", bst.Height())
+	}
+
+	bst = NewTree(intComparator)
+	bst.Insert(98)
+	bst.Insert(50)
+	bst.Insert(45)
+	bst.Insert(40)
+	bst.Insert(33)
+	bst.Insert(25)
+	bst.Insert(9)
+
+	if bst.Height() != 6 {
+		t.Errorf("expected 6, got %d", bst.Height())
 	}
 }
